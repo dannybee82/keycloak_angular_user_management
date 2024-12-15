@@ -1,0 +1,19 @@
+<div class="custom-button-theme p-1">
+    <h2 class="margin-1rem" mat-dialog-title>Delete</h2>
+    <div mat-dialog-content class="margin-l-and-r-1rem">
+        <p class="w800">{{ this.data.value !== '' ? 'Do you really want to delete the user below?' : 'Do you really want to delete this item?' }}</p>
+        @if(this.data.value !== '') {
+            <p class="value-name">"{{this.data.value}}"</p>
+        }
+    </div>
+    <div class="button-container margin-top-bottom-1rem">
+        <button class="button-accent width-button" type="button" color="accent" mat-raised-button (click)="this.onCancel()">
+            <mat-icon>cancel</mat-icon>
+            <span>Cancel</span>
+        </button>
+        <button class="button-warn" type="button" color="warn" mat-raised-button (click)="this.onDelete()">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+        </button>
+    </div>
+</div>

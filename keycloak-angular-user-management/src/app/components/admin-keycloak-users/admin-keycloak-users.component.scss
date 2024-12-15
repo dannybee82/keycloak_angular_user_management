@@ -1,0 +1,127 @@
+.container {
+    margin-top: 24px;
+    padding: 32px 16px 16px 16px;
+
+    mat-card-content {
+        padding: 0;
+    }
+
+    .table {
+        width: 100%;
+        padding: 1rem;
+    
+        .text-left.header {
+            text-align: left;
+        }
+    }
+}
+
+.row {
+    width: 100%,
+}
+
+td {
+    padding: 0.25rem 0 0.25rem 0;
+    background-color: #fafafa;
+}
+
+table tr th {
+    padding-left: 4px!important;
+}
+
+table tr td {
+    padding-left: 4px!important;
+}
+
+.custom-table-width {
+    width: 100%;
+    word-break: break-all;
+}
+
+.custom-table-width tbody tr th {
+    width: 45%;    
+}
+
+.custom-table-width tbody tr td {
+    width: 45%;
+}
+
+.tile {
+    border-radius: 5px; 
+    border: 1px solid darkgrey; 
+    margin: 10px; 
+    padding-bottom: 15px
+}
+
+.mdc-button {
+    min-width: auto;
+}
+
+.custom-icon-for-cards {
+    margin: 0px; 
+    height: auto; 
+    width: auto;    
+}
+
+.custom-icon-for-cards-sm {
+    width: 1rem; 
+    margin-left: 0px; 
+    margin-right: 0px;
+}
+
+.spacer {
+    font-size: 12px;
+}
+
+@media (min-width:600px) and (max-width:700px) {
+    .spacer {
+        font-size: 8px;
+    }
+}
+
+.is-enabled {
+    color: green;
+}
+
+.is-disabled {
+    color: red;
+}
+
+.cell-padding-bottom {
+    padding-bottom: 5px;
+}
+
+.remove-margins {
+    margin-left: 0px!important;
+    margin-right: 0px!important;
+}
+
+.border-red {
+    border: 1px solid red!important;
+}
+
+.border-green {
+    border: 1px solid green!important;
+}
+
+.medium-screens {
+    display: none;
+}
+
+@media (max-width: 1279px) {
+    .large-screens {
+        display: none;
+    }
+
+    .medium-screens {
+        display: flex;
+    }
+}
+
+.pb-2 {
+    padding-bottom: 32px;
+}
+
+.me-1 {
+    margin-right: 16px;
+}

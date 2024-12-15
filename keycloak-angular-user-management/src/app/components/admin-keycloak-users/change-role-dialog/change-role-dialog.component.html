@@ -1,0 +1,30 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    @if(this.data.typeEnableUser) {
+      <h3>Enable or Disable User:</h3>
+    } @else {
+      <h3>Change User Role:</h3>
+    }
+  </div>
+  <div class="toggle-section">
+    @if(this.data.typeEnableUser) {
+    <mat-button-toggle-group #group="matButtonToggleGroup" name="selectUserRole" aria-label="Select User Role" class="m-2"
+    [value]="selectedVal" (change)="onValChange(group.value)">      
+        <mat-button-toggle value="true">Enable</mat-button-toggle>
+        <mat-button-toggle value="false" class="warning-color">Disable</mat-button-toggle> 
+    </mat-button-toggle-group>
+    } @else {  
+      <mat-radio-group [value]="selectedVal" #radio aria-label="Select Role" name="selectUserRole" class="m-2"
+      (change)="changeRole($event)">
+        <mat-radio-button value="REGISTERED">Registered</mat-radio-button>
+        <mat-radio-button value="USER">User</mat-radio-button>
+        <mat-radio-button value="ADMIN">Admin</mat-radio-button>
+      </mat-radio-group>
+    }
+  </div>
+
+    <div class="custom-button-theme">
+      <button class="button-accent" mat-raised-button color="accent" (click)="onCancel()">Cancel</button>
+      <button class="button-primary" mat-raised-button color="primary" [mat-dialog-close]="this.returnData()" cdkFocusInitial>Update</button>
+    </div>
+</div>

@@ -1,0 +1,145 @@
+<div class="container">
+  <div class="row">
+    <button type="button" mat-raised-button color="primary" (click)="addKeycloakUser()" class="me-1">
+      <mat-icon>add</mat-icon>
+      <span>Add Keycloak User</span>
+    </button>
+    <button type="button" mat-raised-button color="primary" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </button>
+  </div>
+  <header class="title pb-2">
+    <h1 class="mat-headline-3">Keycloak Users</h1>
+  </header>
+    @if(this.allLoaded()) {
+        <mat-card-content class="large-screens">      
+          <table class="table custom-css-table mouse-cursor-default mat-elevation-z3" cellspacing="0" cellpadding="0">
+            <tr>
+              <th class="text-left header">Name</th>
+              <th class="text-left header">Email</th>
+              <th class="text-left header">Username</th>
+              <th class="text-left header">Enabled</th>
+              <th class="text-left header">Role</th>
+              <th class="text-left header"></th>
+              <th class="text-left header"></th>
+            </tr>
+            @for (user of allUsersData; track index; let index = $index) {
+              <tr>
+                <td class="text-left">{{user.firstName}} {{user.lastName}}</td>
+                <td class="text-left">{{user.email}}</td>
+                <td class="text-left">{{user.username}}</td>
+                <td class="text-left">            
+                  <button class="enable-disable-button" type="button" mat-stroked-button matTooltip="Enable/Disable User"
+                    (click)="changeUserEnabled(user.id)" [class.border-red]="!user.enabled" [class.border-green]="user.enabled">                
+                    @if(user.enabled) {
+                      <mat-icon class="is-enabled remove-margins">done</mat-icon>
+                    } @else {
+                      <mat-icon class="is-disabled remove-margins">cancel</mat-icon>
+                    }                             
+                  </button>
+                </td>
+                <td>
+                  @if(user.group === 'unknown' || user.group === 'REGISTERED')  {
+                    <span class="is-disabled">{{ user.group }}</span>
+                  }
+    
+                  @if(user.group !== 'unknown' && user.group !== 'REGISTERED')  {
+                    <span>{{ user.group }}</span>
+                  }          
+                  
+                </td>
+                <td class="text-right">            
+                  <button class="button-primary" type="button" mat-raised-button color="primary"
+                    (click)="changeUserRole(user.id)">
+                  <mat-icon>edit</mat-icon>
+                  <span class="ml-1">Change Role</span>
+                </button>
+                </td>
+                <td>
+                  <button class="button-warn" type="button" mat-raised-button color="warn" (click)="delete(user.id)">
+                    <mat-icon class="custom-icon-for-cards">delete</mat-icon>
+                    <span fxHide.sm>Delete</span>
+                  </button>
+                </td>               
+              </tr> 
+            }               
+          </table>
+        </mat-card-content>
+    
+        <!-- Custom cards - Screen sizes lower or equal to Medium -->
+        <mat-card-content class="medium-screens">      
+          <div>
+            @for(user of allUsersData; track index; let index = $index) {
+              <mat-card class="tile">
+                <mat-card-header fxFlex="100%">
+                  <table class="custom-table custom-table-width mouse-cursor-default">
+                    <tbody>
+                      <tr>
+                        <th>Name:</th>                  
+                        <td>{{ user.firstName + ' ' + user.lastName }}</td>
+                      </tr>
+                      <tr>
+                        <th>Username:</th>
+                        <td>{{ user.username }}</td>
+                      </tr>
+                      <tr>
+                        <th>Email:</th>
+                        <td>{{ user.email }}</td>
+                      </tr>
+                      <tr>
+                        <th>Enabled:</th>
+                        <td class="cell-padding-bottom">
+                          <button type="button" mat-stroked-button matTooltip="Enable/Disable User"
+                            (click)="changeUserEnabled(user.id)" [class.border-red]="!user.enabled" [class.border-green]="user.enabled">
+      
+                            @if(user.enabled) {
+                              <mat-icon class="is-enabled remove-margins">done</mat-icon>
+                            } @else {
+                              <mat-icon class="is-disabled remove-margins">cancel</mat-icon>
+                            }
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>Role:</th>
+                        <td>
+                          @if(user.group === 'unknown' || user.group === 'REGISTERED') {
+                            <span class="is-disabled">{{ user.group }}</span>
+                          }
+      
+                          @if(user.group !== 'unknown' && user.group !== 'REGISTERED') {
+                            <span>{{ user.group }}</span>
+                          }                    
+                        </td>
+                      </tr>                      
+                      <tr>
+                        <th></th>
+                        <td>
+                          <button class="button-primary" type="button" mat-raised-button color="primary" matTooltip="Change User Group/Role"
+                            (click)="changeUserEnabled(user.id)">
+                            <mat-icon class="custom-icon-for-cards">edit</mat-icon>
+                            <span fxHide.sm>Change Role</span>
+                          </button>
+                          <br>                          
+                        </td>
+                      </tr>    
+                      <tr>
+                        <th></th>
+                        <td>
+                          <button class="button-warn" type="button" mat-raised-button color="warn"
+                          matTooltip="Click Delete Button" (click)="delete(user.id)">
+                          <mat-icon class="custom-icon-for-cards">delete</mat-icon>
+                          <span>Delete</span>
+                        </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </mat-card-header>
+              </mat-card>
+            }          
+          </div>
+        </mat-card-content> 
+    }    
+  </div>

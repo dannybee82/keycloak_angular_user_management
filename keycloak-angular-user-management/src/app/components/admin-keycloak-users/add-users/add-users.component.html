@@ -1,0 +1,46 @@
+<div class="container p-1">
+    <div class="row">
+        <button type="button" mat-raised-button color="warn" (click)="goBack()">
+            <mat-icon>arrow_left</mat-icon>
+            <span>Back</span>
+        </button>
+    </div>
+</div>
+<div class="container p-1">
+    <form [formGroup]="this.addUserForm" (ngSubmit)="submit()">
+        <div class="row">
+            <mat-form-field class="form-input">
+                <mat-label>Firstname:</mat-label>
+                <input type="text" formControlName="firstName" matTooltip="Firstname" matInput placeholder="Firstname">
+            </mat-form-field>
+        </div>
+        <div class="row">
+            <mat-form-field class="form-input">
+                <mat-label>Lastname:</mat-label>
+                <input type="text" formControlName="lastName" matTooltip="Lastname" matInput placeholder="Lastname">
+            </mat-form-field>
+        </div>
+        <div class="row">
+            <mat-form-field class="form-input">
+                <mat-label>Email</mat-label>
+                <input type="text" formControlName="email" matTooltip="Email" matInput placeholder="Email">
+            </mat-form-field>
+        </div>
+        <div class="row">
+            <mat-form-field>
+                <mat-label>Role</mat-label>
+                <mat-select formControlName="role">                    
+                        @for(role of this.availableRoles; track role) {
+                            <mat-option [value]="role">{{role}}</mat-option>
+                        }                
+                </mat-select>
+            </mat-form-field> 
+        </div>
+        <div class="row">
+            <button type="submit" mat-raised-button color="primary">
+                <mat-icon>add</mat-icon>
+                <span>Add User</span>
+            </button>    
+        </div>
+    </form>
+</div>

@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  keycloak:
+    image: keycloak/keycloak:26.0.7
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_HOSTNAME: localhost
+    
+    entrypoint: ["/opt/keycloak/bin/kc.sh", "start-dev"]    
+    ports:
+     - 28080:8080

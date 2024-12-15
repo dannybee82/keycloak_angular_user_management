@@ -1,0 +1,29 @@
+<!-- Login and Logout buttons -->
+<div class="container">
+@if (!this.authenticated()) {
+  <button type="button" mat-raised-button color="primary" (click)="login()">
+    <mat-icon>login</mat-icon>
+    <span>Login</span>
+  </button>
+} @else {
+  <button type="button" mat-raised-button color="primary" (click)="logout()">
+    <mat-icon>logout</mat-icon>
+    <span>Logout</span>
+  </button>
+}
+
+<!-- Show this when logged in -->
+@if (this.authenticated()) {
+  <div class="row">
+    <h3>Welcome {{ this.fullName() }}</h3>
+    <h6>Your Role is:</h6>
+    @if(this.isUser()) {
+      <h6>User</h6>
+    }
+
+    @if(this.isRegistered()) {
+      <h6>Registered</h6>
+    }
+  </div>
+}
+</div>
