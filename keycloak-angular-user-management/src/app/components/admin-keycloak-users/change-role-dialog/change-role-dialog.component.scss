@@ -21,15 +21,6 @@
             .warning-color {
                 color: red;
             }
-
-            .mat-button-toggle {
-                background-color: var(--accent-color);
-            }
-
-            .mat-button-toggle-checked {
-                background-color: var(--blue-03);
-                color: white;
-            }
         }
 
         .custom-button-theme {
@@ -37,39 +28,17 @@
             display: flex;
             justify-content: space-evenly;
             margin-top: 1.5rem;
-
-            .button-primary:hover {
-                background-color: green;
-            }
-            
-            .button-warn {
-                border: 1px, solid, var(--warn-button-hover-color);
-                color: rgb(235, 79, 79);
-            
-                mat-icon  {
-                    color: rgb(235, 79, 79);
-                }
-            
-                span {
-                    color: rgb(235, 79, 79);
-                }
-            }
             
             .button-warn:hover {
                 background-color: var(--warn-button-hover-color);
                 color: white;
             
                 mat-icon {
-                    color: white;
-            
+                    color: white;            
                 }
                 span {
                     color: white;
                 }
-            }
-            
-            .button-accent:hover {
-                background-color: var(--accent-button-hover-color);
             }
         }
     }
@@ -77,4 +46,3 @@
    ::ng-deep mat-button-toggle-standalone mat-button-toggle-appearance-standard mat-pseudo-checkbox, mat-button-toggle-group-appearance-standard mat-pseudo-checkbox {
     --mat-minimal-pseudo-checkbox-selected-checkmark-color: rgb(255 255 255 / 87%);
 }
-

@@ -14,11 +14,10 @@
         <mat-button-toggle value="false" class="warning-color">Disable</mat-button-toggle> 
     </mat-button-toggle-group>
     } @else {  
-      <mat-radio-group [value]="selectedVal" #radio aria-label="Select Role" name="selectUserRole" class="m-2"
-      (change)="changeRole($event)">
-        <mat-radio-button value="REGISTERED">Registered</mat-radio-button>
-        <mat-radio-button value="USER">User</mat-radio-button>
-        <mat-radio-button value="ADMIN">Admin</mat-radio-button>
+      <mat-radio-group [value]="selectedVal" #radio aria-label="Select Role" name="selectUserRole" class="m-2" (change)="changeRole($event)">
+        @for(role of this.applicationRolesArr; track role) {
+          <mat-radio-button [value]="role">{{ role | i18nSelect:applicationRolesTranslations }}</mat-radio-button>
+        }
       </mat-radio-group>
     }
   </div>

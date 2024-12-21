@@ -26,15 +26,12 @@ export class AdminKeycloakUsersComponent implements OnInit {
 
   dataSaved = false;
   allUsersData: UserKeyCloak[] = [];
-  groupAdminsOnly: WritableSignal<UserKeyCloak[]> = signal([]);
-  showGroupAdmins: WritableSignal<boolean> = signal(false);
   userIdUpdate = null;
   userGroups: UserKeyCloakGroup[] = [];
   private _allLinkedUsers: KeycloakUser[] = [];
   private _uniqueGroups: UserKeyCloakGroup[] = [];
   allLoaded: WritableSignal<boolean> = signal(false);
   isAdmin: WritableSignal<boolean> = signal(false);
-  isGroupAdmin: WritableSignal<boolean> = signal(false);
 
   public dialog = inject(MatDialog);
   private userService = inject(KeycloakUserService);
@@ -56,7 +53,7 @@ export class AdminKeycloakUsersComponent implements OnInit {
         this._uniqueGroups = result[1];
         this._allLinkedUsers = result[2];
 
-        this.allUsersData.map(item => item.group = 'unknown');        
+        this.allUsersData.map(item => item.group = ApplicationRoles.UNKNOWN);
       },
       error: () => {
         this.toastr.error("Unable to load data.");
@@ -216,6 +213,10 @@ export class AdminKeycloakUsersComponent implements OnInit {
     this.keycloak.logout();
   }
   
+  getApplicationRoles(): typeof ApplicationRoles {
+    return ApplicationRoles;
+  }
+
   private getAndAssignGroupMembers() : void {
     if(this._uniqueGroups != undefined) {
       const actions$: Array<Observable<any>> = [];
@@ -243,15 +244,6 @@ export class AdminKeycloakUsersComponent implements OnInit {
           this.allLoaded.set(true);
         },
         complete: () => {
-          if(this.isGroupAdmin()) {
-            this.allUsersData = this.allUsersData.filter(item => item.group !== "ADMIN");
-          }
-
-          if(this.isAdmin()) {
-            this.groupAdminsOnly.set(this.allUsersData.filter(item => item.group === "GROUP_ADMIN"));
-            this.showGroupAdmins.set(true);
-          }
-
           this.allLoaded.set(true);
         }
       });

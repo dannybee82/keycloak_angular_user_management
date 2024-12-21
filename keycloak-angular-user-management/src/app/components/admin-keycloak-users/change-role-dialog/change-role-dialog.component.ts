@@ -1,13 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatRadioChange } from '@angular/material/radio';
 import { AllMatModules } from '../../../all-mat-modules.module';
-
-export interface DialogData {
-  typeEnableUser: boolean,
-  userIsEnabled: boolean,
-  selectedRole: string
-}
+import { applicationRolesArr, applicationRolesTranslations } from '../../../models/application-roles.enum';
+import { I18nSelectPipe } from '@angular/common';
+import { DialogData } from '../../../models/dialog-data.interface';
 
 @Component({
   selector: 'app-change-role-dialog',
@@ -15,17 +12,19 @@ export interface DialogData {
   styleUrls: ['./change-role-dialog.component.scss'],
   standalone: true,
   imports: [
-    AllMatModules
+    AllMatModules,
+    I18nSelectPipe
   ]
 })
 export class ChangeRoleDialogComponent implements OnInit {
 
-  public selectedVal: string = '';
+  selectedVal: string = '';
+  applicationRolesArr = applicationRolesArr;
+  applicationRolesTranslations = applicationRolesTranslations;
 
-  constructor(
-    public dialogRef: MatDialogRef<ChangeRoleDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
-
+  public dialogRef = inject(MatDialogRef<ChangeRoleDialogComponent>);
+  public data: DialogData = inject(MAT_DIALOG_DATA);
+ 
   ngOnInit(): void {
     if(this.data.typeEnableUser && this.data.userIsEnabled) {
       this.selectedVal = this.data.userIsEnabled.toString();
@@ -40,7 +39,7 @@ export class ChangeRoleDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  public onValChange(val: string) {
+  onValChange(val: string) {
     this.selectedVal = val;
 
     if(this.data.typeEnableUser) {
@@ -50,11 +49,11 @@ export class ChangeRoleDialogComponent implements OnInit {
     }    
   }
 
-  public changeRole(event: MatRadioChange): void {
+  changeRole(event: MatRadioChange): void {
     this.data.selectedRole = event.value;
   }
 
-  returnData() : any {
+  returnData() : boolean | string {
     if(this.data.typeEnableUser) {
       return this.data.userIsEnabled;
     } else {

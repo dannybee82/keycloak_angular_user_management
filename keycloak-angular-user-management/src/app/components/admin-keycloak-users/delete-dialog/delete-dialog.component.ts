@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,9 +15,8 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class DeleteDialogComponent {
 
-  constructor(
-    public dialogRef: MatDialogRef<DeleteDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {} 
+  public dialogRef = inject(MatDialogRef<DeleteDialogComponent>);
+  public data = inject(MAT_DIALOG_DATA);
 
   onCancel() : void {
     this.data.confirmDelete = false;

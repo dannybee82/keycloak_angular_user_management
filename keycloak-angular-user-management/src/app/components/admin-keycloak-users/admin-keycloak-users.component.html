@@ -40,11 +40,11 @@
                   </button>
                 </td>
                 <td>
-                  @if(user.group === 'unknown' || user.group === 'REGISTERED')  {
+                  @if(user.group === this.getApplicationRoles().UNKNOWN || user.group === this.getApplicationRoles().REGISTERED)  {
                     <span class="is-disabled">{{ user.group }}</span>
                   }
     
-                  @if(user.group !== 'unknown' && user.group !== 'REGISTERED')  {
+                  @if(user.group !== this.getApplicationRoles().UNKNOWN && user.group !== this.getApplicationRoles().REGISTERED)  {
                     <span>{{ user.group }}</span>
                   }          
                   
@@ -104,11 +104,11 @@
                       <tr>
                         <th>Role:</th>
                         <td>
-                          @if(user.group === 'unknown' || user.group === 'REGISTERED') {
+                          @if(user.group === this.getApplicationRoles().UNKNOWN || user.group === this.getApplicationRoles().REGISTERED) {
                             <span class="is-disabled">{{ user.group }}</span>
                           }
       
-                          @if(user.group !== 'unknown' && user.group !== 'REGISTERED') {
+                          @if(user.group !== this.getApplicationRoles().UNKNOWN && user.group !== this.getApplicationRoles().REGISTERED) {
                             <span>{{ user.group }}</span>
                           }                    
                         </td>
