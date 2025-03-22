@@ -29,7 +29,7 @@ At the upper left there is a drop-down with 'Keycloak master'. 
 
 Click at this dropdown field.
 
-Next, click at the button **Create  Realm** 
+Next, click at the button **Create  Realm**
 
 Click at **Browse...** and select the file mentioned here above: _realm.export.json_
 
@@ -45,9 +45,9 @@ In the _admin console_ check under _Groups -> Admin -> Role Mapping_ whether the
 
 \- **realm management** _view users_
 
-When this is not the case assign these 3 client roles to _Admin -_ steps_:_
+When this is not the case assign these 3 client roles to _Admin -_ _steps:_
 
-_Groups -> Admin -> Role Mapping -> Assign Role (button) -> Filter by clients_ (dropdown at the left) -> check the 3 client roles: _manage users, queryusers_ and _view users._
+_Groups -> Admin -> Role Mapping -> Assign Role (button) -> Filter by clients_ (dropdown at the left) -> check the 3 client roles: _manage users, query users_ and _view users._
 
 ## Installation + running Angular application
 
