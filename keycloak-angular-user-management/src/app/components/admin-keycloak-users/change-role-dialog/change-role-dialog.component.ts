@@ -10,7 +10,6 @@ import { DialogData } from '../../../models/dialog-data.interface';
   selector: 'app-change-role-dialog',
   templateUrl: './change-role-dialog.component.html',
   styleUrls: ['./change-role-dialog.component.scss'],
-  standalone: true,
   imports: [
     AllMatModules,
     I18nSelectPipe

@@ -1,9 +1,9 @@
 <div class="custom-button-theme p-1">
-    <h2 class="margin-1rem" mat-dialog-title>Delete</h2>
+    <h2 class="margin-1rem" mat-dialog-title>{{ this.data.title }}</h2>
     <div mat-dialog-content class="margin-l-and-r-1rem">
-        <p class="w800">{{ this.data.value !== '' ? 'Do you really want to delete the user below?' : 'Do you really want to delete this item?' }}</p>
-        @if(this.data.value !== '') {
-            <p class="value-name">"{{this.data.value}}"</p>
+        <p class="w800">{{ this.data.message }}</p>
+        @if(this.data.additionalData !== '') {
+            <p class="value-name">"{{this.data.additionalData}}"</p>
         }
     </div>
     <div class="button-container margin-top-bottom-1rem">

@@ -1,57 +1,53 @@
 import { Component, OnInit, WritableSignal, inject, signal } from '@angular/core';
 import { EMPTY, Observable, forkJoin, of, switchMap } from 'rxjs';
 import { KeycloakUserService } from '../../services/keycloak-user.service';
-import { ToastrService } from 'ngx-toastr';
 import { UserKeyCloak, UserKeyCloakGroup } from '../../models/user';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { ChangeRoleDialogComponent } from './change-role-dialog/change-role-dialog.component';
 import { AllMatModules } from '../../all-mat-modules.module';
-import { KeycloakUser } from '../../models/keycloak-user.interface';
-import { KeycloakService } from 'keycloak-angular';
 import { ApplicationRoles } from '../../models/application-roles.enum';
-import { Router } from '@angular/router';
-import { TokenUpdateService } from '../../services/token-update.service';
+import { BaseComponent } from '../shared/base.component';
+import { DeleteDialogData } from '../../models/delete-dialog-data.interface';
 
 @Component({
   selector: 'app-admin-keycloak-users',
-  standalone: true,
   imports: [
     AllMatModules
   ],
   templateUrl: './admin-keycloak-users.component.html',
   styleUrl: './admin-keycloak-users.component.scss'
 })
-export class AdminKeycloakUsersComponent implements OnInit {
+export class AdminKeycloakUsersComponent extends BaseComponent implements OnInit {
 
-  dataSaved = false;
   allUsersData: UserKeyCloak[] = [];
   userIdUpdate = null;
   userGroups: UserKeyCloakGroup[] = [];
-  private _allLinkedUsers: KeycloakUser[] = [];
   private _uniqueGroups: UserKeyCloakGroup[] = [];
   allLoaded: WritableSignal<boolean> = signal(false);
-  isAdmin: WritableSignal<boolean> = signal(false);
 
   public dialog = inject(MatDialog);
   private userService = inject(KeycloakUserService);
-  private toastr = inject(ToastrService);  
-  private router = inject(Router);
-  private tokenUpdateService = inject(TokenUpdateService);
-  private readonly keycloak = inject(KeycloakService);  
   
-  ngOnInit() {
+  constructor() {
+    super();
+  }
+
+  override ngOnInit(): void {
+    super.ngOnInit();
     this.loadAllData();
   }
 
   loadAllData() : void {
-    const loadData$ = [this.userService.getAllUsers(), this.userService.getAllGroups()];
+    const loadData$ = {
+      allUsers: this.userService.getAllUsers(),
+      allGroups: this.userService.getAllGroups()
+    };
 
     forkJoin(loadData$).subscribe({
-      next: (result: any[]) => {
-        this.allUsersData = result[0];
-        this._uniqueGroups = result[1];
-        this._allLinkedUsers = result[2];
+      next: (data) => {
+        this.allUsersData = data.allUsers as UserKeyCloak[];
+        this._uniqueGroups = data.allGroups as UserKeyCloakGroup[];
 
         this.allUsersData.map(item => item.group = ApplicationRoles.UNKNOWN);
       },
@@ -102,7 +98,7 @@ export class AdminKeycloakUsersComponent implements OnInit {
     }
   }
 
-  changeUserRole(userId: string) : void {
+  changeUserRole(userId: string): void {
     let user: UserKeyCloak | undefined = this.allUsersData.find(item => item.id === userId);
 
     if(user != undefined) {
@@ -154,11 +150,16 @@ export class AdminKeycloakUsersComponent implements OnInit {
     }
   }
 
-  delete(userId: string) {
+  delete(userId: string): void {
     let user: UserKeyCloak | undefined = this.allUsersData.find(item => item.id === userId);
 
     if(user != undefined) {
-      let data: any = (user != undefined) ? {width: '300px', "value": user.firstName + ' ' + user.lastName + ' - ' + user.username + ' - ' + user.group} :  {width: '300px', "value": ''};
+      const data: DeleteDialogData = {
+        title: 'Delete',
+        message: 'Do you really want to delete the user below?',
+        additionalData: `${user.firstName} ${user.lastName} - ${user.username} - ${user.group}`,
+        confirmDelete: false
+      };
 
       const dialogRef = this.dialog.open(DeleteDialogComponent, 
         {data}
@@ -191,26 +192,8 @@ export class AdminKeycloakUsersComponent implements OnInit {
     }
   }
 
-  resetForm() {
-    this.dataSaved = false;
-  }
-
-  isUserLinked(keycloakId: string): boolean {
-    if(this._allLinkedUsers.length > 0) {
-      const index: number = this._allLinkedUsers.findIndex(item => item.keycloakId === keycloakId);
-      return index > -1 ? true : false;
-    }
-
-    return false;
-  }
-
   addKeycloakUser(): void {
     this.router.navigate(['add-user']);
-  }
-
-  logout() : void {
-    this.tokenUpdateService.stop();
-    this.keycloak.logout();
   }
   
   getApplicationRoles(): typeof ApplicationRoles {

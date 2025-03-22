@@ -1,32 +1,30 @@
-import { Injectable, inject } from "@angular/core";
-import { ActivatedRouteSnapshot, RouterStateSnapshot, Router } from "@angular/router";
-import { KeycloakService } from "keycloak-angular";
+import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { inject } from '@angular/core';
+import { AuthGuardData, createAuthGuard } from 'keycloak-angular';
 
-@Injectable(
-    { providedIn: 'root' }
-)
-export class RouteGuard {
+const isAccessAllowed = async (
+  route: ActivatedRouteSnapshot,
+  _: RouterStateSnapshot,
+  authData: AuthGuardData
+): Promise<boolean | UrlTree> => {
+  const { authenticated, grantedRoles } = authData;
 
-    private router = inject(Router);
-    private readonly keycloak = inject(KeycloakService);
+  const requiredRole: string[] = route.data['roles'];
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        if(this.keycloak.isLoggedIn()) {
-            const roles = this.keycloak.getUserRoles();
+  if (!requiredRole) {
+    return false;
+  }
 
-            if(route.data['roles'] && !roles.some(item => route.data['roles'].includes(item)) ) {                
-                // role not authorized so redirect to home page
-                this.router.navigate(['/']);
-                return false;
-            }
+  const hasRequiredRole = (roles: string[]): boolean => {
+    return grantedRoles.realmRoles.some((grantedRole) => roles.includes(grantedRole));
+  }
 
-            // authorized so return true
-            return true;
-        } else {
-            // not logged in so redirect to login pag
-            this.router.navigate(['/']);
-            return false;
-        }
-    }
+  if (authenticated && hasRequiredRole(requiredRole)) {
+    return true;
+  }
 
-}
+  const router = inject(Router);
+  return router.parseUrl('');
+};
+
+export const canActivateAuthRole = createAuthGuard<CanActivateFn>(isAccessAllowed);

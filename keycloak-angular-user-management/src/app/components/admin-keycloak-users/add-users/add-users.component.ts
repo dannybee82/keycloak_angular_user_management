@@ -10,7 +10,6 @@ import { AllMatModules } from '../../../all-mat-modules.module';
 
 @Component({
   selector: 'app-add-users',
-  standalone: true,
   imports: [
     AllMatModules,
     ReactiveFormsModule,

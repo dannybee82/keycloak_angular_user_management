@@ -12,7 +12,7 @@ export const applicationRolesArr: ApplicationRoles[] = [
 ];
 
 export const applicationRolesTranslations = {
-	"ADMIN": "admin",
+	"ADMIN": "Admin",
 	"USER": "User",
 	"REGISTERED": "Registered"
 };

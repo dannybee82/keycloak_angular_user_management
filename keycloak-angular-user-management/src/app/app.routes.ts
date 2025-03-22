@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { RouteGuard } from './guards/route.guard';
 import { ApplicationRoles } from './models/application-roles.enum';
+import { canActivateAuthRole } from './guards/route.guard';
 
 export const routes: Routes = [
     {
@@ -10,13 +10,13 @@ export const routes: Routes = [
     {
         path: 'admin',
         loadComponent: () => import('../app/components/admin-keycloak-users/admin-keycloak-users.component').then(c => c.AdminKeycloakUsersComponent),
-        canActivate: [RouteGuard],
+        canActivate: [canActivateAuthRole],
         data: { roles:[ApplicationRoles.ADMIN] }
     },
     {
         path: 'add-user',
         loadComponent: () => import('../app/components/admin-keycloak-users/add-users/add-users.component').then(c => c.AddUsersComponent),
-        canActivate: [RouteGuard],
+        canActivate: [canActivateAuthRole],
         data: { roles:[ApplicationRoles.ADMIN] }
     }
 ];

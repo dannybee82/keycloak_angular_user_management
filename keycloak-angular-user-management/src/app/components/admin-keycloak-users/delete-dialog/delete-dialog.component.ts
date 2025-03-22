@@ -2,12 +2,12 @@ import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { DeleteDialogData } from '../../../models/delete-dialog-data.interface';
 
 @Component({
   selector: 'app-delete-dialog',
   templateUrl: './delete-dialog.component.html',
   styleUrls: ['./delete-dialog.component.scss'],
-  standalone: true,
   imports: [
     MatIconModule,   
     MatButtonModule 
@@ -16,7 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 export class DeleteDialogComponent {
 
   public dialogRef = inject(MatDialogRef<DeleteDialogComponent>);
-  public data = inject(MAT_DIALOG_DATA);
+  public data: DeleteDialogData = inject(MAT_DIALOG_DATA);
 
   onCancel() : void {
     this.data.confirmDelete = false;

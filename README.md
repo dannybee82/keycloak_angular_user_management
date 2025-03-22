@@ -6,7 +6,7 @@ Angular application to add, manage (enable/disable users and or change the user 
 
 See images in the root folder for examples.
 
-*   Frontend: Angular 18 ( [Angular CLI](https://github.com/angular/angular-cli) version 18.2.12) + Angular Material
+*   Frontend: Angular 19 ( [Angular CLI](https://github.com/angular/angular-cli) version 19.2.4) + Angular Material
 *   Keycloak version 26.0.7
 
 ## Installation of Keycloak with Docker Desktop
@@ -29,13 +29,25 @@ At the upper left there is a drop-down with 'Keycloak master'. 
 
 Click at this dropdown field.
 
-Next, click at the button **Create  Realm**.
+Next, click at the button **Create  Realm** 
 
 Click at **Browse...** and select the file mentioned here above: _realm.export.json_
 
 **Note:** this file doesn't contain users - due to security users can't be exported.
 
 Create users from the _Users_ menu in Keycloak.
+
+In the _admin console_ check under _Groups -> Admin -> Role Mapping_ whether the 3 client roles are assigned:
+
+\- **realm management** _manage users_
+
+\- **realm management** _queryusers_
+
+\- **realm management** _view users_
+
+When this is not the case assign these 3 client roles to _Admin -_ steps_:_
+
+_Groups -> Admin -> Role Mapping -> Assign Role (button) -> Filter by clients_ (dropdown at the left) -> check the 3 client roles: _manage users, queryusers_ and _view users._
 
 ## Installation + running Angular application
 
