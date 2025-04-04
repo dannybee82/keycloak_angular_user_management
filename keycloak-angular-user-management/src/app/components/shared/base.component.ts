@@ -27,30 +27,32 @@ export abstract class BaseComponent implements OnInit {
 
   setKeycloakData(): void {
      if(this.keycloakSignal().type === KeycloakEventType.Ready) { 
-      this.authenticated.set(this.keycloakSignal().args === true ? true : false);
-
-      if(this.authenticated()) {
-        const keycloakRoles: KeycloakRoles | undefined = this.keycloak.realmAccess;
-        const roles: string[] = keycloakRoles?.roles ?? [];
-        
-        this.isAdmin.set(roles.includes(ApplicationRoles.ADMIN));
-        this.isUser.set(roles.includes(ApplicationRoles.USER));
-        this.isRegistered.set(roles.includes(ApplicationRoles.REGISTERED));
-
-        this.keycloak.loadUserProfile().then((data: KeycloakProfile) => {
-          let name = '';
-          if (data.firstName) {
-            name += data.firstName;
-            if (data.lastName) {
-              name += " " + data.lastName;
-            }
-          }
-          this.fullName.set(name);
-        });
-      } else {
-        this.router.navigate(['']);
-      }        
+      this.authenticated.set(this.keycloakSignal().args === true ? true : false);       
+    } else if(this.keycloakSignal().type === KeycloakEventType.AuthRefreshSuccess) {
+      this.authenticated.set(true);    
     }
+    
+    if(this.authenticated()) {
+      const keycloakRoles: KeycloakRoles | undefined = this.keycloak.realmAccess;
+      const roles: string[] = keycloakRoles?.roles ?? [];
+      
+      this.isAdmin.set(roles.includes(ApplicationRoles.ADMIN));
+      this.isUser.set(roles.includes(ApplicationRoles.USER));
+      this.isRegistered.set(roles.includes(ApplicationRoles.REGISTERED));
+
+      this.keycloak.loadUserProfile().then((data: KeycloakProfile) => {
+        let name = '';
+        if (data.firstName) {
+          name += data.firstName;
+          if (data.lastName) {
+            name += " " + data.lastName;
+          }
+        }
+        this.fullName.set(name);
+      });
+    } else {
+      this.router.navigate(['']);
+    } 
   }
 
   login() : void {
