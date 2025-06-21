@@ -79,6 +79,6 @@ _June 2025_
 
 \- Using the keyword **readonly** for properties initialized by Angular (input(), output(), model()).
 
-\- Use inline template for _app.component.ts_.
+\- Using inline template for _app.component.ts_.
 
 \- Some small changes, e.g. converted variables to _signals_.
