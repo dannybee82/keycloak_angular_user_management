@@ -24,7 +24,7 @@
               <th class="text-left header"></th>
               <th class="text-left header"></th>
             </tr>
-            @for (user of allUsersData; track index; let index = $index) {
+            @for (user of allUsersData(); track index; let index = $index) {
               <tr>
                 <td class="text-left">{{user.firstName}} {{user.lastName}}</td>
                 <td class="text-left">{{user.email}}</td>
@@ -70,7 +70,7 @@
         <!-- Custom cards - Screen sizes lower or equal to Medium -->
         <mat-card-content class="medium-screens">      
           <div>
-            @for(user of allUsersData; track index; let index = $index) {
+            @for(user of allUsersData(); track index; let index = $index) {
               <mat-card class="tile">
                 <mat-card-header fxFlex="100%">
                   <table class="custom-table custom-table-width mouse-cursor-default">

@@ -20,19 +20,13 @@ import { DeleteDialogData } from '../../models/delete-dialog-data.interface';
 })
 export class AdminKeycloakUsersComponent extends BaseComponent implements OnInit {
 
-  allUsersData: UserKeyCloak[] = [];
-  userIdUpdate = null;
-  userGroups: UserKeyCloakGroup[] = [];
+  protected allUsersData: WritableSignal<UserKeyCloak[]> = signal([]);
   private _uniqueGroups: UserKeyCloakGroup[] = [];
-  allLoaded: WritableSignal<boolean> = signal(false);
+  protected allLoaded: WritableSignal<boolean> = signal(false);
 
   public dialog = inject(MatDialog);
   private userService = inject(KeycloakUserService);
   
-  constructor() {
-    super();
-  }
-
   override ngOnInit(): void {
     super.ngOnInit();
     this.loadAllData();
@@ -46,10 +40,10 @@ export class AdminKeycloakUsersComponent extends BaseComponent implements OnInit
 
     forkJoin(loadData$).subscribe({
       next: (data) => {
-        this.allUsersData = data.allUsers as UserKeyCloak[];
+        this.allUsersData.set(data.allUsers as UserKeyCloak[]);
         this._uniqueGroups = data.allGroups as UserKeyCloakGroup[];
 
-        this.allUsersData.map(item => item.group = ApplicationRoles.UNKNOWN);
+        this.allUsersData().map(item => item.group = ApplicationRoles.UNKNOWN);
       },
       error: () => {
         this.toastr.error("Unable to load data.");
@@ -61,7 +55,7 @@ export class AdminKeycloakUsersComponent extends BaseComponent implements OnInit
   }
 
   changeUserEnabled(id: string): void {
-    let user: UserKeyCloak | undefined = this.allUsersData.find(item => item.id === id);
+    let user: UserKeyCloak | undefined = this.allUsersData().find(item => item.id === id);
 
     if(user != undefined) {
       const dialogRef = this.dialog.open(ChangeRoleDialogComponent, {
@@ -99,7 +93,7 @@ export class AdminKeycloakUsersComponent extends BaseComponent implements OnInit
   }
 
   changeUserRole(userId: string): void {
-    let user: UserKeyCloak | undefined = this.allUsersData.find(item => item.id === userId);
+    let user: UserKeyCloak | undefined = this.allUsersData().find(item => item.id === userId);
 
     if(user != undefined) {
       let currentGroup: string = user.group ?? '';
@@ -151,7 +145,7 @@ export class AdminKeycloakUsersComponent extends BaseComponent implements OnInit
   }
 
   delete(userId: string): void {
-    let user: UserKeyCloak | undefined = this.allUsersData.find(item => item.id === userId);
+    let user: UserKeyCloak | undefined = this.allUsersData().find(item => item.id === userId);
 
     if(user != undefined) {
       const data: DeleteDialogData = {
@@ -214,7 +208,7 @@ export class AdminKeycloakUsersComponent extends BaseComponent implements OnInit
         next: (result: any[]) => {
           for(let i = 0; i < result.length; i++) {
             result[i].forEach((element: any) => {
-              let found: UserKeyCloak | undefined = this.allUsersData.find(item => item.id === element.id);
+              let found: UserKeyCloak | undefined = this.allUsersData().find(item => item.id === element.id);
 
               if(found != undefined && i < groupNames.length) {
                 found.group = groupNames[i];

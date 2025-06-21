@@ -9,12 +9,12 @@
   <div class="toggle-section">
     @if(this.data.typeEnableUser) {
     <mat-button-toggle-group #group="matButtonToggleGroup" name="selectUserRole" aria-label="Select User Role" class="m-2"
-    [value]="selectedVal" (change)="onValChange(group.value)">      
+    [value]="selectedVal()" (change)="onValChange(group.value)">      
         <mat-button-toggle value="true">Enable</mat-button-toggle>
         <mat-button-toggle value="false" class="warning-color">Disable</mat-button-toggle> 
     </mat-button-toggle-group>
     } @else {  
-      <mat-radio-group [value]="selectedVal" #radio aria-label="Select Role" name="selectUserRole" class="m-2" (change)="changeRole($event)">
+      <mat-radio-group [value]="selectedVal()" #radio aria-label="Select Role" name="selectUserRole" class="m-2" (change)="changeRole($event)">
         @for(role of this.applicationRolesArr; track role) {
           <mat-radio-button [value]="role">{{ role | i18nSelect:applicationRolesTranslations }}</mat-radio-button>
         }

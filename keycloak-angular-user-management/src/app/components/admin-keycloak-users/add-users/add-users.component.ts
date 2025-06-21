@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, WritableSignal, signal } from '@angular/core';
 import { FormBuilder, FormGroup, UntypedFormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ApplicationRoles } from '../../../models/application-roles.enum';
 import { KeycloakUserService } from '../../../services/keycloak-user.service';
@@ -22,11 +22,11 @@ export class AddUsersComponent implements OnInit {
 
   addUserForm: UntypedFormGroup = new FormGroup({});
 
-  availableRoles: ApplicationRoles[] = [
+  protected availableRoles: WritableSignal<ApplicationRoles[]> = signal([
     ApplicationRoles.ADMIN,
     ApplicationRoles.USER,
     ApplicationRoles.REGISTERED
-  ];  
+  ]);  
 
   private fb = inject(FormBuilder);
   private keycloakUserService = inject(KeycloakUserService);
@@ -38,7 +38,7 @@ export class AddUsersComponent implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      role: [this.availableRoles[2], Validators.required]
+      role: [this.availableRoles()[2], Validators.required]
     });
   }
 
@@ -70,10 +70,10 @@ export class AddUsersComponent implements OnInit {
   }
 
   private getRole(role: string): string {
-    let found: number = this.availableRoles.findIndex(item => item.toString() === role);
+    let found: number = this.availableRoles().findIndex(item => item.toString() === role);
 
     if(found > -1) {
-      return this.availableRoles[found].toString();
+      return this.availableRoles()[found].toString();
     }
 
     return ApplicationRoles.REGISTERED.toString();

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, WritableSignal, signal } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatRadioChange } from '@angular/material/radio';
 import { AllMatModules } from '../../../all-mat-modules.module';
@@ -17,20 +17,20 @@ import { DialogData } from '../../../models/dialog-data.interface';
 })
 export class ChangeRoleDialogComponent implements OnInit {
 
-  selectedVal: string = '';
-  applicationRolesArr = applicationRolesArr;
-  applicationRolesTranslations = applicationRolesTranslations;
+  protected selectedVal: WritableSignal<string> = signal('');
+  protected applicationRolesArr = applicationRolesArr;
+  protected applicationRolesTranslations = applicationRolesTranslations;
 
   public dialogRef = inject(MatDialogRef<ChangeRoleDialogComponent>);
   public data: DialogData = inject(MAT_DIALOG_DATA);
  
   ngOnInit(): void {
     if(this.data.typeEnableUser && this.data.userIsEnabled) {
-      this.selectedVal = this.data.userIsEnabled.toString();
+      this.selectedVal.set(this.data.userIsEnabled.toString());
     }
 
     if(!this.data.typeEnableUser && this.data.selectedRole) {
-      this.selectedVal = this.data.selectedRole;
+      this.selectedVal.set(this.data.selectedRole);
     }   
   }
 
@@ -39,12 +39,12 @@ export class ChangeRoleDialogComponent implements OnInit {
   }
 
   onValChange(val: string) {
-    this.selectedVal = val;
+    this.selectedVal.set(val);
 
     if(this.data.typeEnableUser) {
-      this.data.userIsEnabled = this.selectedVal === 'true' ? true : false;
+      this.data.userIsEnabled = this.selectedVal() === 'true' ? true : false;
     } else {
-      this.data.selectedRole = this.selectedVal;
+      this.data.selectedRole = this.selectedVal();
     }    
   }
 

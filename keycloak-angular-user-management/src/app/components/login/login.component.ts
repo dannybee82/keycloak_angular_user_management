@@ -14,10 +14,6 @@ import { BaseComponent } from '../shared/base.component';
 })
 export class LoginComponent extends BaseComponent implements OnInit {
 
-  constructor() {
-    super();
-  }
-
   override ngOnInit(): void {
     super.ngOnInit();
 

@@ -30,7 +30,7 @@
             <mat-form-field>
                 <mat-label>Role</mat-label>
                 <mat-select formControlName="role">                    
-                        @for(role of this.availableRoles; track role) {
+                        @for(role of this.availableRoles(); track role) {
                             <mat-option [value]="role">{{role}}</mat-option>
                         }                
                 </mat-select>

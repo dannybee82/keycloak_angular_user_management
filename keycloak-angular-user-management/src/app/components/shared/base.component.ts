@@ -12,14 +12,14 @@ export abstract class BaseComponent implements OnInit {
   private readonly keycloak = inject(Keycloak);
   private keycloakSignal = inject(KEYCLOAK_EVENT_SIGNAL);
   
-  authenticated: WritableSignal<boolean> = signal(false);
-  isUser: WritableSignal<boolean> = signal(false);
-  isAdmin: WritableSignal<boolean> = signal(false);
-  isRegistered: WritableSignal<boolean> = signal(false);
+  protected authenticated: WritableSignal<boolean> = signal(false);
+  protected isUser: WritableSignal<boolean> = signal(false);
+  protected isAdmin: WritableSignal<boolean> = signal(false);
+  protected isRegistered: WritableSignal<boolean> = signal(false);
 
-  fullName: WritableSignal<string> = signal('');
-  router = inject(Router);
-  toastr = inject(ToastrService);
+  protected fullName: WritableSignal<string> = signal('');
+  protected router = inject(Router);
+  protected toastr = inject(ToastrService);
 
   ngOnInit(): void {
     this.setKeycloakData();

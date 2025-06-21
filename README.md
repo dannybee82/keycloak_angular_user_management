@@ -6,7 +6,7 @@ Angular application to add, manage (enable/disable users and or change the user 
 
 See images in the root folder for examples.
 
-*   Frontend: Angular 19 ( [Angular CLI](https://github.com/angular/angular-cli) version 19.2.4) + Angular Material
+*   Frontend: Angular 20 ( [Angular CLI](https://github.com/angular/angular-cli) version 20.0.3) + Angular Material
 *   Keycloak version 26.0.7
 
 ## Installation of Keycloak with Docker Desktop
@@ -66,3 +66,19 @@ _ng serve --open_
 or shorter:
 
 _ng s --o_
+
+### **Changelog:**
+
+_June 2025_
+
+\- Upgrade to Angular 20. 
+
+\- Removed unnecessary package _@angular/platform-browser-dynamic_
+
+\- Using the keyword **protected** for properties that are only accessible in the template.
+
+\- Using the keyword **readonly** for properties initialized by Angular (input(), output(), model()).
+
+\- Use inline template for _app.component.ts_.
+
+\- Some small changes, e.g. converted variables to _signals_.
