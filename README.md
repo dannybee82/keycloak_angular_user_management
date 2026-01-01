@@ -6,7 +6,7 @@ Angular application to add, manage (enable/disable users and or change the user 
 
 See images in the root folder for examples.
 
-*   Frontend: Angular 20 ( [Angular CLI](https://github.com/angular/angular-cli) version 20.0.3) + Angular Material
+*   Frontend: Angular 21 ( [Angular CLI](https://github.com/angular/angular-cli) version 21.0.4) + Angular Material
 *   Keycloak version 26.0.7
 
 ## Installation of Keycloak with Docker Desktop
@@ -53,6 +53,8 @@ _Groups -> Admin -> Role Mapping -> Assign Role (button) -> Filter by clients_ 
 
 **Command to install**
 
+**Angular 21** needs a **Node.js** version of at least _20.19.0_
+
 _npm install_
 
 or shorter:
@@ -68,6 +70,18 @@ or shorter:
 _ng s --o_
 
 ### **Changelog:**
+
+_January 2026_
+
+\- Upgrade to _Angular 21_ and upgraded other packages.
+
+*   Removed deprecated _Karma_ and installed _Vitest._
+*   Migrated _Jasmine_ tests to _Vitest_ tests for future use (command: **ng generate refactor-jasmine-vitest**).
+*   HttpClient unchanged (makes use of an interceptor).
+
+\- Migration to _Zoneless_ (No use of _Zone.js_ and removed it's references).
+
+\- Other minor changes.
 
 _June 2025_
 

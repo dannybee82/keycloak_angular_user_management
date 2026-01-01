@@ -21,7 +21,7 @@ import { DeleteDialogData } from '../../models/delete-dialog-data.interface';
 export class AdminKeycloakUsersComponent extends BaseComponent implements OnInit {
 
   protected allUsersData: WritableSignal<UserKeyCloak[]> = signal([]);
-  private _uniqueGroups: UserKeyCloakGroup[] = [];
+  private _uniqueGroups: WritableSignal<UserKeyCloakGroup[]> = signal([]);
   protected allLoaded: WritableSignal<boolean> = signal(false);
 
   public dialog = inject(MatDialog);
@@ -41,7 +41,7 @@ export class AdminKeycloakUsersComponent extends BaseComponent implements OnInit
     forkJoin(loadData$).subscribe({
       next: (data) => {
         this.allUsersData.set(data.allUsers as UserKeyCloak[]);
-        this._uniqueGroups = data.allGroups as UserKeyCloakGroup[];
+        this._uniqueGroups.set(data.allGroups as UserKeyCloakGroup[]);
 
         this.allUsersData().map(item => item.group = ApplicationRoles.UNKNOWN);
       },
@@ -79,13 +79,12 @@ export class AdminKeycloakUsersComponent extends BaseComponent implements OnInit
       dialog$.subscribe({
         next: (result) => {
           this.toastr.success("User updated successfully.");
+          this.allLoaded.set(false);
+          this.loadAllData();
         },
         error: () => {
           this.toastr.error("Unable to update user.");
-        }, 
-        complete: () => {
-          this.loadAllData();
-        }
+        },
       });
     } else {
       this.toastr.error("User not found.");
@@ -97,7 +96,7 @@ export class AdminKeycloakUsersComponent extends BaseComponent implements OnInit
 
     if(user != undefined) {
       let currentGroup: string = user.group ?? '';
-      let deleteFromGroup: UserKeyCloakGroup | undefined = this._uniqueGroups.find(item => item.name === currentGroup);
+      let deleteFromGroup: UserKeyCloakGroup | undefined = this._uniqueGroups().find(item => item.name === currentGroup);
 
       const dialogRef = this.dialog.open(ChangeRoleDialogComponent, {
         data: {typeEnableUser: false, selectedRole: currentGroup}
@@ -106,7 +105,7 @@ export class AdminKeycloakUsersComponent extends BaseComponent implements OnInit
       const selectedRole$ = dialogRef.afterClosed().pipe(
         switchMap(dialog => {
           if(dialog !== undefined && currentGroup !== dialog) {
-            let addToGroup: UserKeyCloakGroup | undefined = this._uniqueGroups.find(item => item.name === dialog);
+            let addToGroup: UserKeyCloakGroup | undefined = this._uniqueGroups().find(item => item.name === dialog);
             
             if(addToGroup != undefined) {
               const actions$: Array<Observable<any>> = [];
@@ -118,11 +117,11 @@ export class AdminKeycloakUsersComponent extends BaseComponent implements OnInit
 
               return forkJoin(actions$);
             } else {
-              this.toastr.error("Cant add user to unknown Group.");
-              return of();
+              this.toastr.error("Can\'t add user to unknown Group.");
+              return EMPTY;
             }            
           } else {
-            return of();
+            return EMPTY;
           }
         })
       );
@@ -130,13 +129,12 @@ export class AdminKeycloakUsersComponent extends BaseComponent implements OnInit
       selectedRole$.subscribe({
         next: (result) => {
           this.toastr.success("User Group is updated.");
+
+          this.allLoaded.set(false);
+          this.loadAllData();
         },
         error: () => {
           this.toastr.error("Group not updated.");
-        },
-        complete: () => {
-          this.allLoaded.set(false);
-          this.loadAllData();
         }
       });
     } else {
@@ -164,7 +162,7 @@ export class AdminKeycloakUsersComponent extends BaseComponent implements OnInit
           if(result != undefined && result.confirmDelete === true && user != undefined) {
             return this.userService.deleteUser(user);
           } else {
-            return of();
+            return EMPTY;
           }
         }) 
       );
@@ -172,13 +170,11 @@ export class AdminKeycloakUsersComponent extends BaseComponent implements OnInit
       deleteAction$.subscribe({
         next: () => {
           this.toastr.success("User deleted.");
+          this.allLoaded.set(false);
+          this.loadAllData();
         },
         error: () => {
           this.toastr.error("User not deleted.");
-        },
-        complete: () => {
-          this.allLoaded.set(false);
-          this.loadAllData();
         }
       });
     } else {
@@ -195,11 +191,11 @@ export class AdminKeycloakUsersComponent extends BaseComponent implements OnInit
   }
 
   private getAndAssignGroupMembers() : void {
-    if(this._uniqueGroups != undefined) {
+    if(this._uniqueGroups() != undefined) {
       const actions$: Array<Observable<any>> = [];
       let groupNames: string[] = [];
 
-      this._uniqueGroups.forEach(item => {
+      this._uniqueGroups().forEach(item => {
         actions$.push( this.userService.getMembersOfGroup(item.id) );
         groupNames.push(item.name);
       });
@@ -225,7 +221,7 @@ export class AdminKeycloakUsersComponent extends BaseComponent implements OnInit
         }
       });
     } else {
-      console.log("unique groups are undefined ...");
+      this.toastr.error("Unique groups are undefined.");
     }
   }
 

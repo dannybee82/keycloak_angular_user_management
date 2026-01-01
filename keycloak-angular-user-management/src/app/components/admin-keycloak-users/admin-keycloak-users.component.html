@@ -46,8 +46,7 @@
     
                   @if(user.group !== this.getApplicationRoles().UNKNOWN && user.group !== this.getApplicationRoles().REGISTERED)  {
                     <span>{{ user.group }}</span>
-                  }          
-                  
+                  }
                 </td>
                 <td class="text-right">            
                   <button class="button-primary" type="button" mat-raised-button color="primary"
@@ -104,20 +103,20 @@
                       <tr>
                         <th>Role:</th>
                         <td>
-                          @if(user.group === this.getApplicationRoles().UNKNOWN || user.group === this.getApplicationRoles().REGISTERED) {
+                          @if(user.group === this.getApplicationRoles().UNKNOWN || user.group === this.getApplicationRoles().REGISTERED)  {
                             <span class="is-disabled">{{ user.group }}</span>
                           }
-      
-                          @if(user.group !== this.getApplicationRoles().UNKNOWN && user.group !== this.getApplicationRoles().REGISTERED) {
+            
+                          @if(user.group !== this.getApplicationRoles().UNKNOWN && user.group !== this.getApplicationRoles().REGISTERED)  {
                             <span>{{ user.group }}</span>
-                          }                    
+                          }                  
                         </td>
                       </tr>                      
                       <tr>
                         <th></th>
                         <td>
                           <button class="button-primary" type="button" mat-raised-button color="primary" matTooltip="Change User Group/Role"
-                            (click)="changeUserEnabled(user.id)">
+                            (click)="changeUserRole(user.id)">
                             <mat-icon class="custom-icon-for-cards">edit</mat-icon>
                             <span fxHide.sm>Change Role</span>
                           </button>

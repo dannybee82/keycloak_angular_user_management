@@ -4,8 +4,8 @@ import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet],
-  template: `<router-outlet></router-outlet>`
+  template: `<router-outlet />`
 })
 export class AppComponent {
-  title = 'keycloak-angular-user-management';
+  protected readonly title = 'keycloak-angular-user-management';
 }

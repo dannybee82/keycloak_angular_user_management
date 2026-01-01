@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -19,7 +19,8 @@ const bearerTokenInterceptor = createInterceptorCondition<IncludeBearerTokenCond
 
 export const appConfig: ApplicationConfig = {
   providers: [
-		provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideAnimationsAsync(),
+		provideRouter(routes), 
+		provideAnimationsAsync(),
 		provideHttpClient(
 			withInterceptors([includeBearerTokenInterceptor]),
 			withInterceptorsFromDi()
@@ -36,7 +37,7 @@ export const appConfig: ApplicationConfig = {
 			  onLoad: 'check-sso',
 			  checkLoginIframe: false
 			},
-		providers: [AutoRefreshTokenService, UserActivityService],
+			providers: [AutoRefreshTokenService, UserActivityService],
 			features: [
 			  withAutoRefreshToken({
 				onInactivityTimeout: 'none',

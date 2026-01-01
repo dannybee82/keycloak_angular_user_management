@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ChangeRoleDialogComponent } from './change-role-dialog.component';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 describe('RoleDialogComponent', () => {
   let component: ChangeRoleDialogComponent;

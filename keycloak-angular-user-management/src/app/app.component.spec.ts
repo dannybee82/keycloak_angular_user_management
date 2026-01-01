@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -17,6 +18,7 @@ describe('AppComponent', () => {
   it(`should have the 'keycloak-angular-user-management' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
+    //@ts-ignore
     expect(app.title).toEqual('keycloak-angular-user-management');
   });
 
