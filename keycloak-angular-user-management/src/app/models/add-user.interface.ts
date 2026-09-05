@@ -1,6 +1,6 @@
 import { Credentials } from "./credentials.interface";
 
-export interface AddUser {
+export interface AddUserInterface {
     email: string,
     enabled: boolean, 
     firstName: string,

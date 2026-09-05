@@ -5,14 +5,14 @@ import { Base } from '../shared/base';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  templateUrl: './login.html',
+  styleUrls: ['./login.scss'],
   imports: [
     MatButtonModule,
     MatIconModule
   ]
 })
-export class LoginComponent extends Base implements OnInit {
+export class Login extends Base implements OnInit {
 
   override ngOnInit(): void {
     super.ngOnInit();

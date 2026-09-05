@@ -5,17 +5,17 @@ import { canActivateAuthRole } from './guards/route.guard';
 export const routes: Routes = [
     {
         path: '',
-        loadComponent: () => import('../app/components/login/login.component').then(c => c.LoginComponent)
+        loadComponent: () => import('./components/login/login').then(c => c.Login)
     },
     {
         path: 'admin',
-        loadComponent: () => import('../app/components/admin-keycloak-users/admin-keycloak-users.component').then(c => c.AdminKeycloakUsersComponent),
+        loadComponent: () => import('./components/admin-keycloak-users/admin-keycloak-users').then(c => c.AdminKeycloakUsers),
         canActivate: [canActivateAuthRole],
         data: { roles:[ApplicationRoles.ADMIN] }
     },
     {
         path: 'add-user',
-        loadComponent: () => import('../app/components/admin-keycloak-users/add-users/add-users.component').then(c => c.AddUsersComponent),
+        loadComponent: () => import('./components/admin-keycloak-users/add-users/add-users').then(c => c.AddUsers),
         canActivate: [canActivateAuthRole],
         data: { roles:[ApplicationRoles.ADMIN] }
     }

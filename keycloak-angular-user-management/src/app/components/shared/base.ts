@@ -2,13 +2,14 @@ import { Component, OnInit, WritableSignal, signal, inject } from "@angular/core
 import { Router } from "@angular/router";
 import Keycloak, { KeycloakProfile, KeycloakRoles } from "keycloak-js";
 import { ApplicationRoles } from "../../models/application-roles.enum";
-import { ToastrService } from 'ngx-toastr';
 import { KEYCLOAK_EVENT_SIGNAL, KeycloakEventType } from "keycloak-angular";
+import { ToastService } from "../../services/toast/toast-service";
 
 @Component({
-  template: ''
+  template: '',
+  selector: 'app-base-component'
 })
-export abstract class BaseComponent implements OnInit {
+export abstract class Base implements OnInit {
   private readonly keycloak = inject(Keycloak);
   private keycloakSignal = inject(KEYCLOAK_EVENT_SIGNAL);
   
@@ -19,7 +20,7 @@ export abstract class BaseComponent implements OnInit {
 
   protected fullName: WritableSignal<string> = signal('');
   protected router = inject(Router);
-  protected toastr = inject(ToastrService);
+  protected toastr = inject(ToastService);
 
   ngOnInit(): void {
     this.setKeycloakData();

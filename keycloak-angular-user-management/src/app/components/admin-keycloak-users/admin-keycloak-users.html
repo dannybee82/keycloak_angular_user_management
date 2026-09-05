@@ -12,7 +12,7 @@
   <header class="title pb-2">
     <h1 class="mat-headline-3">Keycloak Users</h1>
   </header>
-    @if(this.allLoaded()) {
+    @if(allLoaded()) {
         <mat-card-content class="large-screens">      
           <table class="table custom-css-table mouse-cursor-default mat-elevation-z3" cellspacing="0" cellpadding="0">
             <tr>
@@ -40,11 +40,11 @@
                   </button>
                 </td>
                 <td>
-                  @if(user.group === this.getApplicationRoles().UNKNOWN || user.group === this.getApplicationRoles().REGISTERED)  {
+                  @if(user.group === getApplicationRoles().UNKNOWN || user.group === getApplicationRoles().REGISTERED)  {
                     <span class="is-disabled">{{ user.group }}</span>
                   }
     
-                  @if(user.group !== this.getApplicationRoles().UNKNOWN && user.group !== this.getApplicationRoles().REGISTERED)  {
+                  @if(user.group !== getApplicationRoles().UNKNOWN && user.group !== getApplicationRoles().REGISTERED)  {
                     <span>{{ user.group }}</span>
                   }
                 </td>
@@ -103,11 +103,11 @@
                       <tr>
                         <th>Role:</th>
                         <td>
-                          @if(user.group === this.getApplicationRoles().UNKNOWN || user.group === this.getApplicationRoles().REGISTERED)  {
+                          @if(user.group === getApplicationRoles().UNKNOWN || user.group === getApplicationRoles().REGISTERED)  {
                             <span class="is-disabled">{{ user.group }}</span>
                           }
             
-                          @if(user.group !== this.getApplicationRoles().UNKNOWN && user.group !== this.getApplicationRoles().REGISTERED)  {
+                          @if(user.group !== getApplicationRoles().UNKNOWN && user.group !== getApplicationRoles().REGISTERED)  {
                             <span>{{ user.group }}</span>
                           }                  
                         </td>

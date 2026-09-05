@@ -8,20 +8,20 @@ import { DialogData } from '../../../models/dialog-data.interface';
 
 @Component({
   selector: 'app-change-role-dialog',
-  templateUrl: './change-role-dialog.component.html',
-  styleUrls: ['./change-role-dialog.component.scss'],
+  templateUrl: './change-role-dialog.html',
+  styleUrls: ['./change-role-dialog.scss'],
   imports: [
     AllMatModules,
     I18nSelectPipe
   ]
 })
-export class ChangeRoleDialogComponent implements OnInit {
+export class ChangeRoleDialog implements OnInit {
 
   protected selectedVal: WritableSignal<string> = signal('');
   protected applicationRolesArr = applicationRolesArr;
   protected applicationRolesTranslations = applicationRolesTranslations;
 
-  public dialogRef = inject(MatDialogRef<ChangeRoleDialogComponent>);
+  public dialogRef = inject(MatDialogRef<ChangeRoleDialog>);
   public data: DialogData = inject(MAT_DIALOG_DATA);
  
   ngOnInit(): void {

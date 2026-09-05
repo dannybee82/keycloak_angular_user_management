@@ -1,12 +1,12 @@
 import { Component, inject, OnInit, WritableSignal, signal } from '@angular/core';
 import { FormBuilder, FormGroup, UntypedFormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ApplicationRoles } from '../../../models/application-roles.enum';
-import { KeycloakUserService } from '../../../services/keycloak-user.service';
-import { ToastrService } from 'ngx-toastr';
-import { AddUser } from '../../../models/add-user.interface';
+import { KeycloakUser } from '../../../services/keycloak/keycloak-user';
+import { AddUserInterface } from '../../../models/add-user.interface';
 import { Credentials } from '../../../models/credentials.interface';
 import { Router } from '@angular/router';
 import { AllMatModules } from '../../../all-mat-modules.module';
+import { ToastService } from '../../../services/toast/toast-service';
 
 @Component({
   selector: 'app-add-users',
@@ -15,10 +15,10 @@ import { AllMatModules } from '../../../all-mat-modules.module';
     ReactiveFormsModule,
     FormsModule
   ],
-  templateUrl: './add-users.component.html',
-  styleUrl: './add-users.component.scss'
+  templateUrl: './add-users.html',
+  styleUrl: './add-users.scss'
 })
-export class AddUsersComponent implements OnInit {
+export class AddUsers implements OnInit {
 
   addUserForm: UntypedFormGroup = new FormGroup({});
 
@@ -29,8 +29,8 @@ export class AddUsersComponent implements OnInit {
   ]);  
 
   private fb = inject(FormBuilder);
-  private keycloakUserService = inject(KeycloakUserService);
-  private toastr = inject(ToastrService);
+  private keycloakUserService = inject(KeycloakUser);
+  private toastr = inject(ToastService);
   private router = inject(Router);
 
   ngOnInit(): void {
@@ -50,7 +50,7 @@ export class AddUsersComponent implements OnInit {
     if(this.addUserForm.valid) {
       this.addUserForm.disable();
 
-      const data: AddUser = {
+      const data: AddUserInterface = {
         realmRoles: [this.getRole(this.addUserForm.get('role')?.value ?? '')],
         groups: [this.addUserForm.get('role')?.value],
         requiredActions: ["UPDATE_PASSWORD", "UPDATE_PROFILE"],
@@ -65,7 +65,7 @@ export class AddUsersComponent implements OnInit {
       this.addUser(data);
     } else {
       this.addUserForm.markAllAsTouched();
-        this.toastr.error('Form is invalid.');
+        this.toastr.show('Form is invalid.', 'error');
     }
   }
 
@@ -93,14 +93,14 @@ export class AddUsersComponent implements OnInit {
     return arr;
   }
 
-  private addUser(data: AddUser): void {
+  private addUser(data: AddUserInterface): void {
     this.keycloakUserService.addUser(data).subscribe({
       next: (result) => {
         console.log(result);
-        this.toastr.success('User successfully added.');
+        this.toastr.show('User successfully added.', 'success');
       },
       error: () => {
-        this.toastr.error('Can\'t add User.');
+        this.toastr.show('Can\'t add User.', 'error'  );
       },
       complete: () => {
         this.router.navigate(['admin']);

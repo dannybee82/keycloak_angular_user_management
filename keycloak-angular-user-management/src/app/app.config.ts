@@ -2,11 +2,8 @@ import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptors, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { AutoRefreshTokenService, createInterceptorCondition, INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG, IncludeBearerTokenCondition, includeBearerTokenInterceptor, KeycloakService, provideKeycloak, UserActivityService, withAutoRefreshToken } from 'keycloak-angular';
-import { provideAnimations } from '@angular/platform-browser/animations';
-import { ToastrModule } from 'ngx-toastr';
-import { importProvidersFrom } from '@angular/core';
 import { environment } from '../environments/environment';
  
 //Settings for Bearer token interceptor
@@ -21,12 +18,10 @@ export const appConfig: ApplicationConfig = {
   providers: [
 		provideRouter(routes), 
 		provideAnimationsAsync(),
-		provideHttpClient(
+		provideHttpClient(withXhr(), 
 			withInterceptors([includeBearerTokenInterceptor]),
 			withInterceptorsFromDi()
-		),
-		provideAnimations(), 
-		importProvidersFrom(ToastrModule.forRoot({ positionClass: 'toast-bottom-center' })),
+		),	
 		provideKeycloak({
 			config: {
 			  url: `${environment.keycloakServer}`,

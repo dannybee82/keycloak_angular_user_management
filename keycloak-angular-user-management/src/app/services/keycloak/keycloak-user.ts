@@ -1,18 +1,16 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Service } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { UserKeyCloak, UserKeyCloakGroup } from '../models/user';
+import { UserKeyCloak, UserKeyCloakGroup } from '../../models/user';
 import Keycloak from 'keycloak-js';
 import { Observable } from 'rxjs';
-import { AddUser } from '../models/add-user.interface';
+import { AddUserInterface } from '../../models/add-user.interface';
 
 const headers: HttpHeaders = new HttpHeaders(
   {'Content-type': 'application/json'}
 );
 
-@Injectable({
-  providedIn: 'root'
-})
-export class KeycloakUserService {
+@Service()
+export class KeycloakUser {
 
   private http = inject(HttpClient);
   private readonly keycloak = inject(Keycloak);
@@ -49,7 +47,7 @@ export class KeycloakUserService {
     return this.http.delete<any>(`${this.keycloak.authServerUrl}/admin/realms/${this.keycloak.realm}/users/${user.id}`);
   }
 
-  addUser(data: AddUser): Observable<void> {
+  addUser(data: AddUserInterface): Observable<void> {
     return this.http.post<void>(`${this.keycloak.authServerUrl}/admin/realms/${this.keycloak.realm}/users`, data, {headers: headers});
   }
 

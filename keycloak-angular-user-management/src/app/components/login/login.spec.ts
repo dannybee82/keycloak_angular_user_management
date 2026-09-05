@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AdminKeycloakUsersComponent } from './admin-keycloak-users.component';
+import { Login } from './login';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-describe('AdminKeycloakUsersComponent', () => {
-  let component: AdminKeycloakUsersComponent;
-  let fixture: ComponentFixture<AdminKeycloakUsersComponent>;
+describe('LoginComponent', () => {
+  let component: Login;
+  let fixture: ComponentFixture<Login>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AdminKeycloakUsersComponent]
+      imports: [Login]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(AdminKeycloakUsersComponent);
+    fixture = TestBed.createComponent(Login);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

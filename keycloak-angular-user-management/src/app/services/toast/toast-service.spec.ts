@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-import { KeycloakUserService } from './keycloak-user.service';
+import { ToastService } from './toast-service';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-describe('KeycloakUserService', () => {
-  let service: KeycloakUserService;
+describe('ToastService', () => {
+  let service: ToastService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(KeycloakUserService);
+    service = TestBed.inject(ToastService);
   });
 
   it('should be created', () => {

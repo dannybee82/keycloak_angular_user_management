@@ -1,6 +1,6 @@
 <!-- Login and Logout buttons -->
 <div class="container">
-@if (!this.authenticated()) {
+@if (!authenticated()) {
   <button type="button" mat-raised-button color="primary" (click)="login()">
     <mat-icon>login</mat-icon>
     <span>Login</span>
@@ -13,15 +13,15 @@
 }
 
 <!-- Show this when logged in -->
-@if (this.authenticated()) {
+@if (authenticated()) {
   <div class="row">
-    <h3>Welcome {{ this.fullName() }}</h3>
+    <h3>Welcome {{ fullName() }}</h3>
     <h6>Your Role is:</h6>
-    @if(this.isUser()) {
+    @if(isUser()) {
       <h6>User</h6>
     }
 
-    @if(this.isRegistered()) {
+    @if(isRegistered()) {
       <h6>Registered</h6>
     }
   </div>

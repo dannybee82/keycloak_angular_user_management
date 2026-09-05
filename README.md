@@ -6,12 +6,12 @@ Angular application to add, manage (enable/disable users and or change the user 
 
 See images in the root folder for examples.
 
-*   Frontend: Angular 21 ( [Angular CLI](https://github.com/angular/angular-cli) version 21.0.4) + Angular Material
-*   Keycloak version 26.0.7
+*   Frontend: Angular 22 ( [Angular CLI](https://github.com/angular/angular-cli) version 22.1.7) + Angular Material
+*   Keycloak version 26.7.3
 
 ## Installation of Keycloak with Docker Desktop
 
-See the docker-compose file in the folder _Docker-compose_. 
+See the docker-compose file in the folder _keycloak_docker-compose_. 
 
 Change username and password to the needs.
 
@@ -25,13 +25,11 @@ See the folder _keycloak-realm-demo_ and the file: _realm.export.json_
 
 When Keycloak is running in a Docker Container then log in.
 
-At the upper left there is a drop-down with 'Keycloak master'. 
+At the upper left there is the menu item 'Manage realms'. 
 
-Click at this dropdown field.
+From the 'Manage realms' page, click at 'Create realm'.
 
-Next, click at the button **Create  Realm**
-
-Click at **Browse...** and select the file mentioned here above: _realm.export.json_
+Click at **Browse...** and select the file mentioned here above: _realm.export.json_ from the folder folder _keycloak-realm-demo_.
 
 **Note:** this file doesn't contain users - due to security users can't be exported.
 
@@ -49,11 +47,15 @@ When this is not the case assign these 3 client roles to _Admin -_ _steps:_
 
 _Groups -> Admin -> Role Mapping -> Assign Role (button) -> Filter by clients_ (dropdown at the left) -> check the 3 client roles: _manage users, query users_ and _view users._
 
+**Note:** When adding new users from the frontend, the new users can login with their name in lowercase letters.
+e.g. firstname: Juliette => password: juliette
+The password and profile will be updated after the first login.
+
 ## Installation + running Angular application
 
 **Command to install**
 
-**Angular 21** needs a **Node.js** version of at least _20.19.0_
+**Angular 22** needs a **Node.js** version of at least _22.22.3_
 
 _npm install_
 
@@ -70,6 +72,20 @@ or shorter:
 _ng s --o_
 
 ### **Changelog:**
+
+_Septmber 2026_
+
+\- Changed Keycloak version to 26.7.3 and updated the demo-realm.
+
+\- Upgrade to _Angular 22_ and upgraded other packages.
+
+\- Migrated _@Injectable_ to _@Service_.
+
+\- Using the default: _ChangeDetectionStrategy.OnPush_ in stead of _ChangeDetectionStrategy.Eager_.
+
+\- Using the latest file naming conventions - and deleting the old schematics from _angular.json_
+
+\- Removed package _ngx_toastr_ and replaced it by custom service.
 
 _January 2026_
 

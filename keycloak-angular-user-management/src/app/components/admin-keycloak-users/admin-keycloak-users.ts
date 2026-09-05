@@ -1,13 +1,13 @@
 import { Component, OnInit, WritableSignal, inject, signal } from '@angular/core';
 import { EMPTY, Observable, forkJoin, of, switchMap } from 'rxjs';
-import { KeycloakUserService } from '../../services/keycloak-user.service';
+import { KeycloakUser } from '../../services/keycloak/keycloak-user';
 import { UserKeyCloak, UserKeyCloakGroup } from '../../models/user';
 import { MatDialog } from '@angular/material/dialog';
-import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
-import { ChangeRoleDialogComponent } from './change-role-dialog/change-role-dialog.component';
+import { DeleteDialog } from './delete-dialog/delete-dialog';
+import { ChangeRoleDialog } from './change-role-dialog/change-role-dialog';
 import { AllMatModules } from '../../all-mat-modules.module';
 import { ApplicationRoles } from '../../models/application-roles.enum';
-import { BaseComponent } from '../shared/base.component';
+import { Base } from '../shared/base';
 import { DeleteDialogData } from '../../models/delete-dialog-data.interface';
 
 @Component({
@@ -15,17 +15,17 @@ import { DeleteDialogData } from '../../models/delete-dialog-data.interface';
   imports: [
     AllMatModules
   ],
-  templateUrl: './admin-keycloak-users.component.html',
-  styleUrl: './admin-keycloak-users.component.scss'
+  templateUrl: './admin-keycloak-users.html',
+  styleUrl: './admin-keycloak-users.scss'
 })
-export class AdminKeycloakUsersComponent extends BaseComponent implements OnInit {
+export class AdminKeycloakUsers extends Base implements OnInit {
 
   protected allUsersData: WritableSignal<UserKeyCloak[]> = signal([]);
   private _uniqueGroups: WritableSignal<UserKeyCloakGroup[]> = signal([]);
   protected allLoaded: WritableSignal<boolean> = signal(false);
 
   public dialog = inject(MatDialog);
-  private userService = inject(KeycloakUserService);
+  private userService = inject(KeycloakUser);
   
   override ngOnInit(): void {
     super.ngOnInit();
@@ -46,7 +46,7 @@ export class AdminKeycloakUsersComponent extends BaseComponent implements OnInit
         this.allUsersData().map(item => item.group = ApplicationRoles.UNKNOWN);
       },
       error: () => {
-        this.toastr.error("Unable to load data.");
+        this.toastr.show("Unable to load data.", 'error');
       },
       complete: () => {
         this.getAndAssignGroupMembers();
@@ -58,7 +58,7 @@ export class AdminKeycloakUsersComponent extends BaseComponent implements OnInit
     let user: UserKeyCloak | undefined = this.allUsersData().find(item => item.id === id);
 
     if(user != undefined) {
-      const dialogRef = this.dialog.open(ChangeRoleDialogComponent, {
+      const dialogRef = this.dialog.open(ChangeRoleDialog, {
         data: {typeEnableUser: true, userIsEnabled: user.enabled}
       });
 
@@ -78,16 +78,16 @@ export class AdminKeycloakUsersComponent extends BaseComponent implements OnInit
 
       dialog$.subscribe({
         next: (result) => {
-          this.toastr.success("User updated successfully.");
+          this.toastr.show("User updated successfully.", 'success');
           this.allLoaded.set(false);
           this.loadAllData();
         },
         error: () => {
-          this.toastr.error("Unable to update user.");
+          this.toastr.show("Unable to update user.", 'error');
         },
       });
     } else {
-      this.toastr.error("User not found.");
+      this.toastr.show("User not found.", 'error');
     }
   }
 
@@ -98,7 +98,7 @@ export class AdminKeycloakUsersComponent extends BaseComponent implements OnInit
       let currentGroup: string = user.group ?? '';
       let deleteFromGroup: UserKeyCloakGroup | undefined = this._uniqueGroups().find(item => item.name === currentGroup);
 
-      const dialogRef = this.dialog.open(ChangeRoleDialogComponent, {
+      const dialogRef = this.dialog.open(ChangeRoleDialog, {
         data: {typeEnableUser: false, selectedRole: currentGroup}
       });
   
@@ -117,7 +117,7 @@ export class AdminKeycloakUsersComponent extends BaseComponent implements OnInit
 
               return forkJoin(actions$);
             } else {
-              this.toastr.error("Can\'t add user to unknown Group.");
+              this.toastr.show("Can\'t add user to unknown Group.", 'error');
               return EMPTY;
             }            
           } else {
@@ -128,17 +128,17 @@ export class AdminKeycloakUsersComponent extends BaseComponent implements OnInit
 
       selectedRole$.subscribe({
         next: (result) => {
-          this.toastr.success("User Group is updated.");
+          this.toastr.show("User Group is updated.", 'success');
 
           this.allLoaded.set(false);
           this.loadAllData();
         },
         error: () => {
-          this.toastr.error("Group not updated.");
+          this.toastr.show("Group not updated.", 'error');
         }
       });
     } else {
-      this.toastr.error("User not found.");
+      this.toastr.show("User not found.", 'error');
     }
   }
 
@@ -153,7 +153,7 @@ export class AdminKeycloakUsersComponent extends BaseComponent implements OnInit
         confirmDelete: false
       };
 
-      const dialogRef = this.dialog.open(DeleteDialogComponent, 
+      const dialogRef = this.dialog.open(DeleteDialog, 
         {data}
       );
 
@@ -169,16 +169,16 @@ export class AdminKeycloakUsersComponent extends BaseComponent implements OnInit
 
       deleteAction$.subscribe({
         next: () => {
-          this.toastr.success("User deleted.");
+          this.toastr.show("User deleted.", 'success');
           this.allLoaded.set(false);
           this.loadAllData();
         },
         error: () => {
-          this.toastr.error("User not deleted.");
+          this.toastr.show("User not deleted.", 'error');
         }
       });
     } else {
-      this.toastr.error("User not found.");
+      this.toastr.show("User not found.", 'error');
     }
   }
 
@@ -213,7 +213,7 @@ export class AdminKeycloakUsersComponent extends BaseComponent implements OnInit
           }
         },
         error: () => {
-          this.toastr.error("Unable to fetch members of group.");
+          this.toastr.show("Unable to fetch members of group.", 'error');
           this.allLoaded.set(true);
         },
         complete: () => {
@@ -221,7 +221,7 @@ export class AdminKeycloakUsersComponent extends BaseComponent implements OnInit
         }
       });
     } else {
-      this.toastr.error("Unique groups are undefined.");
+      this.toastr.show("Unique groups are undefined.", 'error');
     }
   }
 

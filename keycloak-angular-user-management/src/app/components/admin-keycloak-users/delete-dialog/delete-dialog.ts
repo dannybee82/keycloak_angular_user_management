@@ -6,16 +6,16 @@ import { DeleteDialogData } from '../../../models/delete-dialog-data.interface';
 
 @Component({
   selector: 'app-delete-dialog',
-  templateUrl: './delete-dialog.component.html',
-  styleUrls: ['./delete-dialog.component.scss'],
+  templateUrl: './delete-dialog.html',
+  styleUrls: ['./delete-dialog.scss'],
   imports: [
     MatIconModule,   
     MatButtonModule 
   ]
 })
-export class DeleteDialogComponent {
+export class DeleteDialog {
 
-  public dialogRef = inject(MatDialogRef<DeleteDialogComponent>);
+  public dialogRef = inject(MatDialogRef<DeleteDialog>);
   public data: DeleteDialogData = inject(MAT_DIALOG_DATA);
 
   onCancel() : void {

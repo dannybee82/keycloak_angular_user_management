@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AddUsersComponent } from './add-users.component';
+import { AddUsers } from './add-users';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 describe('AddUsersComponent', () => {
-  let component: AddUsersComponent;
-  let fixture: ComponentFixture<AddUsersComponent>;
+  let component: AddUsers;
+  let fixture: ComponentFixture<AddUsers>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AddUsersComponent]
+      imports: [AddUsers]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AddUsersComponent);
+    fixture = TestBed.createComponent(AddUsers);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

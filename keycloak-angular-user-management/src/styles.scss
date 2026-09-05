@@ -1,5 +1,29 @@
-@use "../node_modules/ngx-toastr/toastr";
 /* You can add global styles to this file, and also import other style files */
-
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+// Custom toastr using Angular Material Snackbar
+.snackbar-info,  
+.snackbar-success,  
+.snackbar-error {  
+  /* text is always white for contrast */  
+  .mdc-snackbar__surface {  
+    color: #ffffff !important;  
+  }  
+  
+  .mdc-snackbar__label {  
+    color: #ffffff !important;  
+  }  
+}  
+  
+.snackbar-info .mdc-snackbar__surface {  
+  background-color: darkblue !important;   /* #00008b */  
+}  
+  
+.snackbar-success .mdc-snackbar__surface {  
+  background-color: darkgreen !important;  /* #006400 */  
+}  
+  
+.snackbar-error .mdc-snackbar__surface {  
+  background-color: darkred !important;    /* #8b0000 */  
+}
