@@ -73,7 +73,7 @@ _ng s --o_
 
 ### **Changelog:**
 
-_Septmber 2026_
+_September 2026_
 
 \- Changed Keycloak version to 26.7.3 and updated the demo-realm.
 
